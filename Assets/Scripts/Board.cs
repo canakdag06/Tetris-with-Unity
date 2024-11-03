@@ -32,6 +32,7 @@ public class Board : MonoBehaviour
         TetrominoData data = this.tetrominoes[random];
 
         this.activePiece.Initialize(this, this.spawnPosition, data);
+        Set(activePiece);
     }
 
     public void Set(Piece piece)
