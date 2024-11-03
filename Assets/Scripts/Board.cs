@@ -9,6 +9,16 @@ public class Board : MonoBehaviour
     public Piece activePiece { get; private set; }
     public TetrominoData[] tetrominoes;
     public Vector3Int spawnPosition;
+    public Vector2Int boardSize = new Vector2Int(10,20);
+
+    public RectInt Bounds
+    {   // bounds of the rectangle from bottom left to top right
+        get
+        {
+            Vector2Int position = new Vector2Int(-boardSize.x/2, -boardSize.y/2);   // bottom left point
+            return new RectInt(position, boardSize);
+        }
+    }
 
     private void Awake()
     {
@@ -44,4 +54,16 @@ public class Board : MonoBehaviour
         }
     }
 
+    public bool IsValidPosition(Piece piece, Vector3Int position)
+    {
+        for (int i = 0; i < piece.cells.Length; i++)
+        {
+            Vector3Int tilePosition = piece.cells[i] + position;
+            if(tilemap.HasTile(tilePosition) || !Bounds.Contains((Vector2Int) tilePosition))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
 }
