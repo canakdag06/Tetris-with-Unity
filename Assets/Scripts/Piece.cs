@@ -40,10 +40,19 @@ public class Piece : MonoBehaviour
         }
     }
 
-    private void Move(Vector2Int translation)
+    private bool Move(Vector2Int translation)
     {
         Vector3Int newPosition = position;
         newPosition.x += translation.x;
         newPosition.y += translation.y;
+
+        bool isValid = board.IsValidPosition(this, newPosition);
+
+        if(isValid)
+        {
+            position = newPosition;
+        }
+
+        return isValid;
     }
 }
