@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Piece : MonoBehaviour
 {
-    public Board board {  get; private set; }
+    public Board board { get; private set; }
     public TetrominoData data { get; private set; }
     public Vector3Int[] cells { get; private set; } // because Tilemap wants the vector to be 3d
     public Vector3Int position { get; private set; }
@@ -16,15 +16,15 @@ public class Piece : MonoBehaviour
         this.board = board;
         this.position = position;
         this.data = data;
-        
-        if(this.cells == null)
+
+        if (this.cells == null)
         {
             this.cells = new Vector3Int[data.cells.Length];
         }
 
-        for(int i = 0; i < data.cells.Length; i++)
+        for (int i = 0; i < data.cells.Length; i++)
         {
-            this.cells[i] = (Vector3Int) data.cells[i];
+            this.cells[i] = (Vector3Int)data.cells[i];
         }
     }
 
@@ -40,11 +40,17 @@ public class Piece : MonoBehaviour
         {
             Move(Vector2Int.right);
         }
-        else if(Input.GetKeyDown(KeyCode.S))
+
+        if (Input.GetKeyDown(KeyCode.S))
         {
             Move(Vector2Int.down);
         }
 
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            HardDrop();
+        }
+        
         board.Set(this);    // sets the new situation of board after the new position is processed. MIGHT BE OPTIMIZED
     }
 
@@ -56,10 +62,18 @@ public class Piece : MonoBehaviour
 
         bool isValid = board.IsValidPosition(this, newPosition);
 
-        if(isValid)
+        if (isValid)
         {
             position = newPosition;
         }
         return isValid;
+    }
+
+    private void HardDrop()
+    {
+        while(Move(Vector2Int.down))
+        {
+            continue;
+        }
     }
 }
