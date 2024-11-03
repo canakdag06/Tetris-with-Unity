@@ -30,6 +30,8 @@ public class Piece : MonoBehaviour
 
     private void Update()
     {
+        board.Clear(this);      // clears the board just before the new position occurs. MIGHT BE OPTIMIZED
+
         if (Input.GetKeyDown(KeyCode.A))
         {
             Move(Vector2Int.left);
@@ -38,6 +40,12 @@ public class Piece : MonoBehaviour
         {
             Move(Vector2Int.right);
         }
+        else if(Input.GetKeyDown(KeyCode.S))
+        {
+            Move(Vector2Int.down);
+        }
+
+        board.Set(this);    // sets the new situation of board after the new position is processed. MIGHT BE OPTIMIZED
     }
 
     private bool Move(Vector2Int translation)
@@ -52,7 +60,6 @@ public class Piece : MonoBehaviour
         {
             position = newPosition;
         }
-
         return isValid;
     }
 }
