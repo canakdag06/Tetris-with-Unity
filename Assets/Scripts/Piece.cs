@@ -78,8 +78,19 @@ public class Piece : MonoBehaviour
 
     private void Rotate(int direction)
     {
-        rotationIndex += Wrap(rotationIndex, 0, 4);     // there are 4 rotation cases
+        int originalRotation = rotationIndex;
+        rotationIndex = Wrap(rotationIndex + direction, 0, 4);     // there are 4 rotation cases
+        ApplyRotationMatrix(direction);
 
+        if (!TestWallKicks(rotationIndex, direction))
+        {
+            rotationIndex = originalRotation;
+            ApplyRotationMatrix(-direction);
+        }
+    }
+
+    private void ApplyRotationMatrix(int direction)
+    {
         for (int i = 0; i < cells.Length; i++)
         {
             Vector3 cell = this.cells[i];   // The reason why it is "Vector3" is that the I and O blocks' pivots are not centered.
@@ -104,7 +115,34 @@ public class Piece : MonoBehaviour
             }
             cells[i] = new Vector3Int(x, y, 0);
         }
+    }
 
+    private bool TestWallKicks(int rotationIndex, int rotationDirection)
+    {
+        int wallKickIndex = GetWallKickIndex(rotationIndex, rotationDirection);
+
+        for (int i = 0; i < data.wallKicks.GetLength(1); i++)
+        {
+            Vector2Int translation = data.wallKicks[wallKickIndex, i];
+
+            if (Move(translation))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private int GetWallKickIndex(int rotationIndex, int rotationDirection)  // to understand this function
+    {                                                                       // please check the table at "tetris wiki/srs/J,L,S,T,Z Tetromino Wall Kick Data
+        int wallKickIndex = rotationIndex * 2;
+
+        if (rotationDirection < 0)
+        {
+            wallKickIndex--;
+        }
+
+        return Wrap(wallKickIndex, 0, this.data.wallKicks.GetLength(0));
     }
 
     private int Wrap(int input, int min, int max)
