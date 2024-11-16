@@ -8,12 +8,22 @@ public class Piece : MonoBehaviour
     public Vector3Int position { get; private set; }
     public int rotationIndex { get; private set; }
 
+    public float stepDelay = 1f;
+    public float lockDelay = 0.5f;
+
+    private float stepTime;
+    private float lockTime;
+
 
     public void Initialize(Board board, Vector3Int position, TetrominoData data)
     {
         this.board = board;
         this.position = position;
         this.data = data;
+        this.rotationIndex = 0;
+        this.stepTime = Time.time + this.stepDelay;
+        this.lockTime = 0f;
+
 
         if (this.cells == null)
         {
@@ -72,6 +82,7 @@ public class Piece : MonoBehaviour
         if (isValid)
         {
             position = newPosition;
+            lockTime = 0f;  // if the piece is moving, game does not lock the piece
         }
         return isValid;
     }
