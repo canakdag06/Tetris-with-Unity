@@ -39,6 +39,7 @@ public class Piece : MonoBehaviour
     private void Update()
     {
         board.Clear(this);      // clears the board just before the new position occurs. MIGHT BE OPTIMIZED
+        lockTime += Time.deltaTime;
 
         if (Input.GetKeyDown(KeyCode.A))
         {
@@ -66,6 +67,11 @@ public class Piece : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             HardDrop();
+        }
+
+        if (Time.time >= stepTime)
+        {
+            Step();
         }
 
         board.Set(this);    // sets the new situation of board after the new position is processed. MIGHT BE OPTIMIZED
@@ -128,6 +134,24 @@ public class Piece : MonoBehaviour
         }
     }
 
+    private void Step()
+    {
+        stepTime = Time.time + this.stepDelay;
+
+        Move(Vector2Int.down);
+
+        if (this.lockTime >= lockDelay)
+        {
+            Lock();
+        }
+    }
+
+    private void Lock()
+    {
+        board.Set(this);
+        board.SpawnPiece();
+    }
+
     private bool TestWallKicks(int rotationIndex, int rotationDirection)
     {
         int wallKickIndex = GetWallKickIndex(rotationIndex, rotationDirection);
@@ -179,5 +203,7 @@ public class Piece : MonoBehaviour
         {
             continue;
         }
+
+        Lock();
     }
 }
