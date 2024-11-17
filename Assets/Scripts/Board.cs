@@ -41,7 +41,7 @@ public class Board : MonoBehaviour
 
         this.activePiece.Initialize(this, this.spawnPosition, data);
 
-        if(IsValidPosition(activePiece, spawnPosition))
+        if (IsValidPosition(activePiece, spawnPosition))
         {
             Set(activePiece);
         }
