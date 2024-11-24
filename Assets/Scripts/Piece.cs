@@ -10,9 +10,14 @@ public class Piece : MonoBehaviour
 
     public float stepDelay = 1f;
     public float lockDelay = 0.5f;
+    public float initialDelay = 0.5f; // delay for first move
+    public float repeatDelay = 0.1f;   // delay for repated moves
 
     private float stepTime;
     private float lockTime;
+    private float verticalHoldTime = 0f;     // while the player holds down the key, it stores when the next move will occur
+    private float horizontalHoldTime = 0f;
+    private bool isHolding;
 
 
     public void Initialize(Board board, Vector3Int position, TetrominoData data)
@@ -41,19 +46,24 @@ public class Piece : MonoBehaviour
         board.Clear(this);      // clears the board just before the new position occurs. MIGHT BE OPTIMIZED
         lockTime += Time.deltaTime;
 
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            Move(Vector2Int.left);
-        }
-        else if (Input.GetKeyDown(KeyCode.D))
-        {
-            Move(Vector2Int.right);
-        }
 
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            Move(Vector2Int.down);
-        }
+        HandleInput(KeyCode.A, Vector2Int.left, ref horizontalHoldTime);
+        HandleInput(KeyCode.D, Vector2Int.right, ref horizontalHoldTime);
+        HandleInput(KeyCode.S, Vector2Int.down, ref verticalHoldTime);
+
+        //if (Input.GetKeyDown(KeyCode.A))
+        //{
+        //    Move(Vector2Int.left);
+        //}
+        //else if (Input.GetKeyDown(KeyCode.D))
+        //{
+        //    Move(Vector2Int.right);
+        //}
+
+        //if (Input.GetKeyDown(KeyCode.S))
+        //{
+        //    Move(Vector2Int.down);
+        //}
 
         if (Input.GetKeyDown(KeyCode.W))    // Clockwise Rotation
         {
@@ -91,6 +101,42 @@ public class Piece : MonoBehaviour
             lockTime = 0f;  // if the piece is moving, game does not lock the piece
         }
         return isValid;
+    }
+
+    private void HandleInput(KeyCode key, Vector2Int direction, ref float holdTime)
+    {
+        if (Input.GetKey(key))
+        {
+            if (holdTime == 0f)
+            {
+                if (Move(direction))
+                {
+                    if(direction == Vector2Int.down)    // moving down repeatedly has no initial delay
+                    {
+                        holdTime = repeatDelay;
+                    }
+                    else
+                    {
+                        holdTime = initialDelay;
+                    }
+                }
+            }
+            else
+            {
+                holdTime -= Time.deltaTime;
+                if (holdTime <= 0f)
+                {
+                    if (Move(direction))
+                    {
+                        holdTime = repeatDelay;
+                    }
+                }
+            }
+        }
+        else if (Input.GetKeyUp(key))
+        {
+            holdTime = 0f;
+        }
     }
 
     private void Rotate(int direction)

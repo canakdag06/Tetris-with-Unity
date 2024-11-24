@@ -592,6 +592,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stepDelay: 1
   lockDelay: 0.5
+  initialDelay: 0.2
+  repeatDelay: 0.05
 --- !u!1 &1702003424
 GameObject:
   m_ObjectHideFlags: 0
