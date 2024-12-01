@@ -17,7 +17,7 @@ public class Piece : MonoBehaviour
     private float lockTime;
     private float verticalHoldTime = 0f;     // while the player holds down the key, it stores when the next move will occur
     private float horizontalHoldTime = 0f;
-    private bool isHolding;
+    private bool isDroppingManually;
 
 
     public void Initialize(Board board, Vector3Int position, TetrominoData data)
@@ -113,6 +113,7 @@ public class Piece : MonoBehaviour
                 {
                     if(direction == Vector2Int.down)    // moving down repeatedly has no initial delay
                     {
+                        isDroppingManually = true;
                         holdTime = repeatDelay;
                     }
                     else
@@ -122,7 +123,7 @@ public class Piece : MonoBehaviour
                 }
             }
             else
-            {
+            {   // Key Repeat
                 holdTime -= Time.deltaTime;
                 if (holdTime <= 0f)
                 {
@@ -136,6 +137,11 @@ public class Piece : MonoBehaviour
         else if (Input.GetKeyUp(key))
         {
             holdTime = 0f;
+
+            if(key == KeyCode.S)
+            {
+                isDroppingManually = false;
+            }
         }
     }
 
@@ -184,7 +190,10 @@ public class Piece : MonoBehaviour
     {
         stepTime = Time.time + this.stepDelay;
 
-        Move(Vector2Int.down);
+        if(!isDroppingManually) // because it drops 2 steps in common multiples of delay values
+        {
+            Move(Vector2Int.down);
+        }
 
         if (this.lockTime >= lockDelay)
         {
