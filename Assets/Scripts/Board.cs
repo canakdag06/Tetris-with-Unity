@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -8,6 +10,9 @@ public class Board : MonoBehaviour
     public TetrominoData[] tetrominoes;
     public Vector3Int spawnPosition;
     public Vector2Int boardSize = new Vector2Int(10, 20);
+
+    private List<int> bag = new();
+    private System.Random random = new();
 
     public RectInt Bounds
     {   // bounds of the rectangle from bottom left to top right
@@ -31,12 +36,53 @@ public class Board : MonoBehaviour
 
     private void Start()
     {
-        SpawnPiece();
+        SpawnPiece(GetNextPiece());
     }
 
-    public void SpawnPiece()
+    private void GenerateNewBag()
     {
-        int random = Random.Range(0, this.tetrominoes.Length);
+        bag.Clear();
+
+        foreach (Tetromino tetromino in Enum.GetValues(typeof(Tetromino)))
+        {
+            bag.Add((int)tetromino);
+        }
+
+        // Shuffle (Fisher-Yates algorithm)
+        for (int i = bag.Count - 1; i > 0; i--)
+        {
+            int j = random.Next(i + 1);
+            (bag[i], bag[j]) = (bag[j], bag[i]); // Swap
+        }
+
+        Debug.LogError("New Bag:");
+        foreach (int index in bag)
+        {
+            Debug.LogError(this.tetrominoes[index].tetromino);
+        }
+
+        //for (int i = 1; i <= 7; i++)
+        //{
+        //    int random = Random.Range(0, 10);
+        //}
+    }
+    public int GetNextPiece()
+    {
+        if (bag.Count == 0)
+        {
+            GenerateNewBag();
+        }
+
+        // Take the last piece out of the bag
+        int nextPieceIndex = bag[bag.Count - 1];
+        bag.RemoveAt(bag.Count - 1);
+        return nextPieceIndex;
+    }
+
+    public void SpawnPiece(int random)
+    {
+        //int random = Random.Range(0, this.tetrominoes.Length);
+        //TetrominoData data = this.tetrominoes[random];
         TetrominoData data = this.tetrominoes[random];
 
         this.activePiece.Initialize(this, this.spawnPosition, data);

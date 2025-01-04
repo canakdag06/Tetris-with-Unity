@@ -205,7 +205,7 @@ public class Piece : MonoBehaviour
     {
         board.Set(this);
         board.ClearLines();
-        board.SpawnPiece();
+        board.SpawnPiece(board.GetNextPiece());
     }
 
     private bool TestWallKicks(int rotationIndex, int rotationDirection)
