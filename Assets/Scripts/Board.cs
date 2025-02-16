@@ -7,6 +7,7 @@ public class Board : MonoBehaviour
 {
     public Tilemap tilemap { get; private set; }
     public Piece activePiece { get; private set; }
+    public NextPiecesDisplayer nextPiecesDisplayer;
     public TetrominoData[] tetrominoes;
     public Vector3Int spawnPosition;
     public Vector2Int boardSize = new Vector2Int(10, 20);
@@ -55,12 +56,6 @@ public class Board : MonoBehaviour
             (bag[i], bag[j]) = (bag[j], bag[i]); // Swap
         }
 
-        Debug.LogError("New Bag:");
-        foreach (int index in bag)
-        {
-            Debug.LogError(this.tetrominoes[index].tetromino);
-        }
-
         //for (int i = 1; i <= 7; i++)
         //{
         //    int random = Random.Range(0, 10);
@@ -74,8 +69,9 @@ public class Board : MonoBehaviour
         }
 
         // Take the last piece out of the bag
-        int nextPieceIndex = bag[bag.Count - 1];
+        int nextPieceIndex = bag[^1];
         bag.RemoveAt(bag.Count - 1);
+        nextPiecesDisplayer.UpdateNextPiecesDisplay(bag);
         return nextPieceIndex;
     }
 
