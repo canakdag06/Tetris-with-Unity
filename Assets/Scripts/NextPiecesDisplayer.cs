@@ -13,7 +13,7 @@ public class NextPiecesDisplayer : MonoBehaviour
     public void UpdateNextPiecesDisplay(List<int> bag)
     {
         tilemap.ClearAllTiles();
-        var nextTetrominos = bag.TakeLast(3).Reverse().ToList();    // the reason i use reverse is positioning the first next tetromino to the top
+        var nextTetrominos = bag.Take(3).ToList();
 
         Vector3Int drawPosition = startPosition;
 

@@ -13,6 +13,7 @@ public class Board : MonoBehaviour
     public Vector2Int boardSize = new Vector2Int(10, 20);
 
     private List<int> bag = new();
+    private List<int> tempBag = new();
     private System.Random random = new();
 
     public RectInt Bounds
@@ -37,40 +38,40 @@ public class Board : MonoBehaviour
 
     private void Start()
     {
+        bag.Clear();
+        GenerateNewBag();
         SpawnPiece(GetNextPiece());
     }
 
     private void GenerateNewBag()
     {
-        bag.Clear();
+        //bag.Clear();
 
         foreach (Tetromino tetromino in Enum.GetValues(typeof(Tetromino)))
         {
-            bag.Add((int)tetromino);
+            tempBag.Add((int)tetromino);
         }
 
         // Shuffle (Fisher-Yates algorithm)
-        for (int i = bag.Count - 1; i > 0; i--)
+        for (int i = tempBag.Count - 1; i > 0; i--)
         {
             int j = random.Next(i + 1);
-            (bag[i], bag[j]) = (bag[j], bag[i]); // Swap
+            (tempBag[i], tempBag[j]) = (tempBag[j], tempBag[i]); // Swap
         }
 
-        //for (int i = 1; i <= 7; i++)
-        //{
-        //    int random = Random.Range(0, 10);
-        //}
+        bag.AddRange(tempBag);
+        tempBag.Clear();
     }
     public int GetNextPiece()
     {
-        if (bag.Count == 0)
+        if (bag.Count == 3)
         {
             GenerateNewBag();
         }
 
         // Take the last piece out of the bag
-        int nextPieceIndex = bag[^1];
-        bag.RemoveAt(bag.Count - 1);
+        int nextPieceIndex = bag[0];
+        bag.RemoveAt(0);
         nextPiecesDisplayer.UpdateNextPiecesDisplay(bag);
         return nextPieceIndex;
     }
