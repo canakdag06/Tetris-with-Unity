@@ -8,7 +8,7 @@ public class NextPiecesDisplayer : MonoBehaviour
     public Board board;
     public Tilemap tilemap;
     public Vector3Int startPosition;
-    public int spacing = 3;
+    public int spacing;
 
     public void UpdateNextPiecesDisplay(List<int> bag)
     {
