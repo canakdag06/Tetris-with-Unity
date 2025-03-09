@@ -20,6 +20,7 @@ public class Board : MonoBehaviour
     private System.Random random = new();
 
     private int score = 0, level = 0, lines = 0;
+    private int[] lineClearScores = { 0, 100, 300, 500, 800 }; // points according to line count
 
     public RectInt Bounds
     {   // bounds of the rectangle from bottom left to top right
@@ -134,6 +135,7 @@ public class Board : MonoBehaviour
     {
         RectInt bounds = Bounds;
         int row = bounds.yMin;
+        int lineCount = lines;
 
         while (row < bounds.yMax)
         {
@@ -152,8 +154,8 @@ public class Board : MonoBehaviour
                 row++;
             }
         }
-
         UpdateUIText(linesText, lines);
+        return lineCount - lines;
     }
 
     private bool IsLineFull(int row)
