@@ -146,7 +146,7 @@ public class Board : MonoBehaviour
                 row++;
             }
         }
-        ScoreManager.Instance.IncreaseStats(lines);
+        ScoreManager.Instance.IncreaseLines(lines);
     }
 
     private bool IsLineFull(int row)
