@@ -100,7 +100,7 @@ public class Piece : MonoBehaviour
             position = newPosition;
             lockTime = 0f;  // if the piece is moving, game does not lock the piece
 
-            if(isDroppingManually)
+            if (isDroppingManually)
             {
                 ScoreManager.Instance.AddDropScore();
             }
@@ -119,6 +119,7 @@ public class Piece : MonoBehaviour
                     if(direction == Vector2Int.down)    // moving down repeatedly has no initial delay
                     {
                         isDroppingManually = true;
+                        ScoreManager.Instance.AddDropScore();
                         holdTime = repeatDelay;
                     }
                     else
