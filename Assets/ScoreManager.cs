@@ -21,13 +21,19 @@ public class ScoreManager : MonoBehaviour
         else Destroy(gameObject);
     }
 
-    public void IncreaseStats(int linesToAdd)
+    public void IncreaseLines(int linesToAdd)
     {
         score += lineClearScores[linesToAdd];
         lines += linesToAdd;
         level = (lines / 10) + 1;
 
         UpdateAllStats();
+    }
+
+    public void AddDropScore()
+    {
+        score++;
+        UIManager.Instance.UpdateScore(score);
     }
 
     private void UpdateAllStats()

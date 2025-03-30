@@ -99,6 +99,11 @@ public class Piece : MonoBehaviour
         {
             position = newPosition;
             lockTime = 0f;  // if the piece is moving, game does not lock the piece
+
+            if(isDroppingManually)
+            {
+                ScoreManager.Instance.AddDropScore();
+            }
         }
         return isValid;
     }
