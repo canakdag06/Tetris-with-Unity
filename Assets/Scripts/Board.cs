@@ -8,7 +8,6 @@ public class Board : MonoBehaviour
 {
     public Tilemap tilemap { get; private set; }
     public Piece activePiece { get; private set; }
-    public TextMeshPro scoreText, levelText, linesText;
     public NextPiecesDisplayer nextPiecesDisplayer;
     
     public TetrominoData[] tetrominoes;
@@ -18,9 +17,6 @@ public class Board : MonoBehaviour
     private List<int> bag = new();
     private List<int> tempBag = new();
     private System.Random random = new();
-
-    private int score = 0, level = 0, lines = 0;
-    private int[] lineClearScores = { 0, 100, 300, 500, 800 }; // points according to line count
 
     public RectInt Bounds
     {   // bounds of the rectangle from bottom left to top right
@@ -44,6 +40,7 @@ public class Board : MonoBehaviour
 
     private void Start()
     {
+        ScoreManager.Instance.ResetStats();
         bag.Clear();
         GenerateNewBag();
         SpawnPiece(GetNextPiece());
@@ -135,7 +132,7 @@ public class Board : MonoBehaviour
     {
         RectInt bounds = Bounds;
         int row = bounds.yMin;
-        int lineCount = lines;
+        int lines = 0;
 
         while (row < bounds.yMax)
         {
@@ -143,19 +140,13 @@ public class Board : MonoBehaviour
             {
                 ClearThisLine(row);
                 lines++;
-                if (lines % 10 == 0)
-                {
-                    level++;
-                    UpdateUIText(levelText, level);
-                }
             }
             else
             {
                 row++;
             }
         }
-        UpdateUIText(linesText, lines);
-        return lineCount - lines;
+        ScoreManager.Instance.IncreaseStats(lines);
     }
 
     private bool IsLineFull(int row)
@@ -199,14 +190,15 @@ public class Board : MonoBehaviour
         }
     }
 
-    private void UpdateUIText(TextMeshPro tmp, int newValue)
-    {
-        tmp.text = newValue.ToString();
-    }
+    //private void UpdateUIText(TextMeshPro tmp, int newValue)
+    //{
+    //    tmp.text = newValue.ToString();
+    //}
 
     private void GameOver() // add UI later
     {
         tilemap.ClearAllTiles();
+        ScoreManager.Instance.ResetStats();
     }
 
 

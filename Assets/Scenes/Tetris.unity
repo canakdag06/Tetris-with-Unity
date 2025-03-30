@@ -1869,6 +1869,66 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_renderer: {fileID: 1166542031}
   m_maskType: 0
+--- !u!1 &1210483659
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1210483660}
+  - component: {fileID: 1210483662}
+  - component: {fileID: 1210483661}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1210483660
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1210483659}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1210483661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1210483659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebc9dfb6367012d49819b98c6667abe2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreText: {fileID: 506580475}
+  levelText: {fileID: 1967291549}
+  linesText: {fileID: 326546339}
+--- !u!114 &1210483662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1210483659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e7b786d873402647a8dbbff1d6fd676, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1242487836
 GameObject:
   m_ObjectHideFlags: 0
@@ -2348,9 +2408,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6399e0a9d7bb094458a15ed0119c8726, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scoreText: {fileID: 506580475}
-  levelText: {fileID: 1967291549}
-  linesText: {fileID: 326546339}
   nextPiecesDisplayer: {fileID: 1661854724}
   tetrominoes:
   - tetromino: 0
@@ -2829,6 +2886,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 519420032}
+  - {fileID: 1210483660}
   - {fileID: 445560017}
   - {fileID: 491962025}
   - {fileID: 1702003426}
