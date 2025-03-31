@@ -36,6 +36,12 @@ public class ScoreManager : MonoBehaviour
         UIManager.Instance.UpdateScore(score);
     }
 
+    public void AddDropScore(int scoreToAdd)
+    {
+        score += scoreToAdd;
+        UIManager.Instance.UpdateScore(score);
+    }
+
     private void UpdateAllStats()
     {
         UIManager.Instance.UpdateScore(score);
