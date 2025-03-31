@@ -387,6 +387,7 @@ GameObject:
   - component: {fileID: 326546338}
   - component: {fileID: 326546340}
   - component: {fileID: 326546339}
+  - component: {fileID: 326546341}
   m_Layer: 0
   m_Name: Lines Text
   m_TagString: Untagged
@@ -547,6 +548,22 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!111 &326546341
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 326546337}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 41d0f17094aefe042bc2e7a73aa4ff1c, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 41d0f17094aefe042bc2e7a73aa4ff1c, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 1
 --- !u!1 &445560015
 GameObject:
   m_ObjectHideFlags: 0
@@ -2651,6 +2668,7 @@ GameObject:
   - component: {fileID: 1967291548}
   - component: {fileID: 1967291550}
   - component: {fileID: 1967291549}
+  - component: {fileID: 1967291551}
   m_Layer: 0
   m_Name: Level Text
   m_TagString: Untagged
@@ -2811,6 +2829,22 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!111 &1967291551
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1967291547}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 41d0f17094aefe042bc2e7a73aa4ff1c, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 41d0f17094aefe042bc2e7a73aa4ff1c, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 1
 --- !u!1 &2058041229
 GameObject:
   m_ObjectHideFlags: 0

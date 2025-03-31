@@ -13,6 +13,11 @@ public class ScoreManager : MonoBehaviour
     private int score;
     private int level = 1;
     private int lines;
+
+    private int lastScore = -1;
+    private int lastLevel = -1;
+    private int lastLines = -1;
+
     private static readonly int[] lineClearScores = { 0, 100, 300, 500, 800 };
 
     private void Awake()
@@ -27,26 +32,45 @@ public class ScoreManager : MonoBehaviour
         lines += linesToAdd;
         level = (lines / 10) + 1;
 
-        UpdateAllStats();
+        ChangeScore(score, true);
+        ChangeLevel(level);
+        ChangeLines(lines);
+    }
+
+    private void ChangeScore(int newScore, bool isAnimated = false)
+    {
+        if (lastScore == newScore) return;
+        lastScore = newScore;
+
+        UIManager.Instance.UpdateScore(score, isAnimated);
+    }
+
+    private void ChangeLevel(int newLevel)
+    {
+        if (lastLevel == newLevel) return;
+        lastLevel = newLevel;
+
+        UIManager.Instance.UpdateLevel(level);
+    }
+
+    private void ChangeLines(int newLines)
+    {
+        if (lastLines == newLines) return;
+        lastLines = newLines;
+
+        UIManager.Instance.UpdateLines(lines);
     }
 
     public void AddDropScore()
     {
         score++;
-        UIManager.Instance.UpdateScore(score);
+        ChangeScore(score);
     }
 
     public void AddDropScore(int scoreToAdd)
     {
         score += scoreToAdd;
-        UIManager.Instance.UpdateScore(score);
-    }
-
-    private void UpdateAllStats()
-    {
-        UIManager.Instance.UpdateScore(score);
-        UIManager.Instance.UpdateLevel(level);
-        UIManager.Instance.UpdateLines(lines);
+        ChangeScore(score);
     }
 
     public void ResetStats()
@@ -55,8 +79,12 @@ public class ScoreManager : MonoBehaviour
         level = 1;
         lines = 0;
 
-        UIManager.Instance.UpdateScore(score);
-        UIManager.Instance.UpdateLevel(level);
-        UIManager.Instance.UpdateLines(lines);
+        lastScore = -1;
+        lastLevel = -1;
+        lastLines = -1;
+
+        ChangeScore(score);
+        ChangeLevel(level);
+        ChangeLines(lines);
     }
 }
