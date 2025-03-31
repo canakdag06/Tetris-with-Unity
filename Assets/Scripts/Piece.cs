@@ -116,7 +116,7 @@ public class Piece : MonoBehaviour
             {
                 if (Move(direction))
                 {
-                    if(direction == Vector2Int.down)    // moving down repeatedly has no initial delay
+                    if (direction == Vector2Int.down)    // moving down repeatedly has no initial delay
                     {
                         isDroppingManually = true;
                         ScoreManager.Instance.AddDropScore();
@@ -144,7 +144,7 @@ public class Piece : MonoBehaviour
         {
             holdTime = 0f;
 
-            if(key == KeyCode.S)
+            if (key == KeyCode.S)
             {
                 isDroppingManually = false;
             }
@@ -196,7 +196,7 @@ public class Piece : MonoBehaviour
     {
         stepTime = Time.time + this.stepDelay;
 
-        if(!isDroppingManually) // because it drops 2 steps in common multiples of delay values
+        if (!isDroppingManually) // because it drops 2 steps in common multiples of delay values
         {
             Move(Vector2Int.down);
         }
@@ -261,11 +261,15 @@ public class Piece : MonoBehaviour
 
     private void HardDrop()
     {
+        int stepCount = 0;
+
         while (Move(Vector2Int.down))
         {
+            stepCount++;
             continue;
         }
 
+        ScoreManager.Instance.AddDropScore(stepCount * 2);
         Lock();
     }
 }
