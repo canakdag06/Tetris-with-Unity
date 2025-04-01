@@ -98,7 +98,16 @@ public class Piece : MonoBehaviour
         if (isValid)
         {
             position = newPosition;
-            lockTime = 0f;  // if the piece is moving, game does not lock the piece
+
+            if (translation.y == 0)
+            {
+                lockTime -= Time.deltaTime * 2; // Extend the lock time a bit but do not reset it
+                lockTime = Mathf.Max(lockTime, 0f); // Make sure it's not negative
+            }
+            else
+            {
+                lockTime = 0f; // Reset when moved down
+            }
 
             if (isDroppingManually)
             {
