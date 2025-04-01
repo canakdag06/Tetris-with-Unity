@@ -128,7 +128,7 @@ public class Board : MonoBehaviour
         return true;
     }
 
-    public void ClearLines()
+    public int ClearLines()
     {
         RectInt bounds = Bounds;
         int row = bounds.yMin;
@@ -151,6 +151,8 @@ public class Board : MonoBehaviour
         {
             ScoreManager.Instance.IncreaseLines(lines);
         }
+
+        return lines;
     }
 
     private bool IsLineFull(int row)
@@ -193,11 +195,6 @@ public class Board : MonoBehaviour
             row++;
         }
     }
-
-    //private void UpdateUIText(TextMeshPro tmp, int newValue)
-    //{
-    //    tmp.text = newValue.ToString();
-    //}
 
     private void GameOver() // add UI later
     {

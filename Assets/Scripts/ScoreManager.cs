@@ -28,13 +28,31 @@ public class ScoreManager : MonoBehaviour
 
     public void IncreaseLines(int linesToAdd)
     {
-        score += lineClearScores[linesToAdd];
+        score += lineClearScores[linesToAdd] * level;
         lines += linesToAdd;
         level = (lines / 10) + 1;
 
         ChangeScore(score, true);
         ChangeLevel(level);
         ChangeLines(lines);
+    }
+
+    public void IncreaseLines(int scoreToAdd, int linesToAdd)
+    {
+        score += scoreToAdd;
+        lines += linesToAdd;
+        level = (lines / 10) + 1;
+
+        if(linesToAdd == 0)
+        {
+            ChangeScore(score, false);
+        }
+        else
+        {
+            ChangeScore(score, false);
+            ChangeLevel(level);
+            ChangeLines(lines);
+        }
     }
 
     private void ChangeScore(int newScore, bool isAnimated = false)

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class Piece : MonoBehaviour
 {
@@ -18,6 +19,8 @@ public class Piece : MonoBehaviour
     private float verticalHoldTime = 0f;     // while the player holds down the key, it stores when the next move will occur
     private float horizontalHoldTime = 0f;
     private bool isDroppingManually;
+
+    private int clearedLines;
 
 
     public void Initialize(Board board, Vector3Int position, TetrominoData data)
@@ -219,7 +222,12 @@ public class Piece : MonoBehaviour
     private void Lock()
     {
         board.Set(this);
-        board.ClearLines();
+        clearedLines = board.ClearLines();
+        if(data.tetromino == Tetromino.T)
+        {
+            CheckTSpin(clearedLines);
+        }
+
         board.SpawnPiece(board.GetNextPiece());
     }
 
@@ -280,5 +288,53 @@ public class Piece : MonoBehaviour
 
         ScoreManager.Instance.AddDropScore(stepCount * 2);
         Lock();
+    }
+
+    private bool IsTSpin(Vector2Int position, int rotationIndex)
+    {
+        // T'nin dört köşe noktası (relatif koordinatlar)
+        Vector2Int[] cornerOffsets = new Vector2Int[]
+        {
+        new Vector2Int(-1, 1), // Sol Üst
+        new Vector2Int(1, 1),  // Sağ Üst
+        new Vector2Int(-1, -1),// Sol Alt
+        new Vector2Int(1, -1)  // Sağ Alt
+        };
+
+        int filledCorners = 0;
+        foreach (var offset in cornerOffsets)
+        {
+            Vector2Int checkPos = position + offset;
+            if (IsCellOccupied(checkPos))
+            {
+                filledCorners++;
+            }
+        }
+
+        return filledCorners >= 3;
+    }
+
+    private void CheckTSpin(int linesCleared)
+    {
+        bool isTSpin = IsTSpin(new Vector2Int(position.x,position.y), rotationIndex);
+
+        if (isTSpin)
+        {
+            int scoreToAdd = 0;
+
+            if (linesCleared == 0) scoreToAdd = 400;  // T-Spin
+            else if (linesCleared == 1) scoreToAdd = 800;  // T-Spin + 1 Satır
+            else if (linesCleared == 2) scoreToAdd = 1200; // T-Spin + 2 Satır
+            else if (linesCleared == 3) scoreToAdd = 1600; // T-Spin + 3 Satır
+            Debug.Log("T SPIN!: " + scoreToAdd + " points.");
+            Debug.Log("linesCleared : " + linesCleared);
+            ScoreManager.Instance.IncreaseLines(scoreToAdd, linesCleared);
+        }
+    }
+
+    private bool IsCellOccupied(Vector2Int position)
+    {
+        Vector3Int tilePosition = new Vector3Int(position.x, position.y, 0);
+        return board.tilemap.HasTile(tilePosition);
     }
 }
