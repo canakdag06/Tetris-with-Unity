@@ -149,7 +149,7 @@ public class Board : MonoBehaviour
 
         if (lines != 0)
         {
-            ScoreManager.Instance.IncreaseLines(lines);
+            ScoreManager.Instance.IncreaseLines(lines, activePiece.position);
         }
 
         return lines;

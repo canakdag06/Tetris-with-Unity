@@ -328,7 +328,8 @@ public class Piece : MonoBehaviour
             else if (linesCleared == 3) scoreToAdd = 1600; // T-Spin + 3 Satır
             Debug.Log("T SPIN!: " + scoreToAdd + " points.");
             Debug.Log("linesCleared : " + linesCleared);
-            ScoreManager.Instance.IncreaseLines(scoreToAdd, linesCleared);
+            ScoreManager.Instance.IncreaseLines(scoreToAdd, linesCleared, this.position);
+            //data.tile.transform.GetPosition()
         }
     }
 

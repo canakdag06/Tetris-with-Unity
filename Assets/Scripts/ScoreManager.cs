@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,24 +21,30 @@ public class ScoreManager : MonoBehaviour
 
     private static readonly int[] lineClearScores = { 0, 100, 300, 500, 800 };
 
+    public static event Action<ScoreEventData> OnScoreEarned;
+
     private void Awake()
     {
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
     }
 
-    public void IncreaseLines(int linesToAdd)
+    public void IncreaseLines(int linesToAdd, Vector3 pos)
     {
         score += lineClearScores[linesToAdd] * level;
+        Debug.Log("pos: " + pos);
+        ScoreEventData data = new ScoreEventData(pos, GetScoreType(linesToAdd), lineClearScores[linesToAdd] * level);
+        OnScoreEarned?.Invoke(data);
         lines += linesToAdd;
         level = (lines / 10) + 1;
 
         ChangeScore(score, true);
         ChangeLevel(level);
         ChangeLines(lines);
+
     }
 
-    public void IncreaseLines(int scoreToAdd, int linesToAdd)
+    public void IncreaseLines(int scoreToAdd, int linesToAdd, Vector3 pos)
     {
         score += scoreToAdd;
         lines += linesToAdd;
@@ -104,5 +111,23 @@ public class ScoreManager : MonoBehaviour
         ChangeScore(score);
         ChangeLevel(level);
         ChangeLines(lines);
+    }
+
+    private ScoreType GetScoreType(int clearedLineCount)
+    {
+        switch (clearedLineCount)
+        {
+            case 1:
+                return ScoreType.Single;
+            case 2:
+                return ScoreType.Double;
+            case 3:
+                return ScoreType.Triple;
+            case 4:
+                return ScoreType.Tetris;
+            default:
+                Debug.LogWarning("Unexpected line clear count: " + clearedLineCount);
+                return ScoreType.Single;
+        }
     }
 }
