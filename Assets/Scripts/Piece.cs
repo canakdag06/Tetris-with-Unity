@@ -323,9 +323,9 @@ public class Piece : MonoBehaviour
             int scoreToAdd = 0;
 
             if (linesCleared == 0) scoreToAdd = 400;  // T-Spin
-            else if (linesCleared == 1) scoreToAdd = 800;  // T-Spin + 1 Satır
-            else if (linesCleared == 2) scoreToAdd = 1200; // T-Spin + 2 Satır
-            else if (linesCleared == 3) scoreToAdd = 1600; // T-Spin + 3 Satır
+            else if (linesCleared == 1) scoreToAdd = 800;  // T-Spin Single
+            else if (linesCleared == 2) scoreToAdd = 1200; // T-Spin Double
+            else if (linesCleared == 3) scoreToAdd = 1600; // T-Spin + Triple
             Debug.Log("T SPIN!: " + scoreToAdd + " points.");
             Debug.Log("linesCleared : " + linesCleared);
             ScoreManager.Instance.IncreaseLines(scoreToAdd, linesCleared, this.position);

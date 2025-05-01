@@ -1,6 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+
+public class ScoreNotification : MonoBehaviour
+{
+
+    private void OnAnimationEnd()
+    {
+        Destroy(gameObject);
+    }
+}
 
 public class ScoreEventData
 {
@@ -18,11 +25,13 @@ public class ScoreEventData
 
 public enum ScoreType
 {
+    None,
     Single,
     Double,
     Triple,
     Tetris,
     TSpin,
-    TSpinMini,
+    TSpinSingle,
     TSpinDouble,
+    TSpinTriple,
 }

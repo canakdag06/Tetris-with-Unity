@@ -32,7 +32,7 @@ public class ScoreManager : MonoBehaviour
     public void IncreaseLines(int linesToAdd, Vector3 pos)
     {
         score += lineClearScores[linesToAdd] * level;
-        Debug.Log("pos: " + pos);
+        //Debug.Log("pos: " + pos);
         ScoreEventData data = new ScoreEventData(pos, GetScoreType(linesToAdd), lineClearScores[linesToAdd] * level);
         OnScoreEarned?.Invoke(data);
         lines += linesToAdd;
@@ -50,16 +50,43 @@ public class ScoreManager : MonoBehaviour
         lines += linesToAdd;
         level = (lines / 10) + 1;
 
-        if(linesToAdd == 0)
+        ScoreEventData data;
+
+        if (linesToAdd == 0)
         {
             ChangeScore(score, false);
+            data = new ScoreEventData(pos, ScoreType.TSpin, scoreToAdd);
         }
         else
         {
             ChangeScore(score, false);
             ChangeLevel(level);
             ChangeLines(lines);
+
+            ScoreType scoreType = ScoreType.None;
+
+            switch (linesToAdd)
+            {
+                case 1:
+                    scoreType = ScoreType.TSpinSingle;
+                    break;
+                case 2:
+                    scoreType = ScoreType.TSpinDouble;
+                    break;
+                case 3:
+                    scoreType = ScoreType.TSpinTriple;
+                    break;
+            }
+
+            data = new ScoreEventData(pos, scoreType, scoreToAdd);
         }
+        StartCoroutine(DelayedScoreEvent(data, 0.5f));
+    }
+
+    private IEnumerator DelayedScoreEvent(ScoreEventData data, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        OnScoreEarned?.Invoke(data);
     }
 
     private void ChangeScore(int newScore, bool isAnimated = false)

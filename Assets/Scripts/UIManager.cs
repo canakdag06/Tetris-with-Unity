@@ -7,6 +7,8 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
 
+    private Board board;
+
     [SerializeField] private TextMeshPro scoreText;
     [SerializeField] private TextMeshPro levelText;
     [SerializeField] private TextMeshPro linesText;
@@ -23,6 +25,8 @@ public class UIManager : MonoBehaviour
     {
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
+
+        board = FindAnyObjectByType<Board>();
 
         scoreAnim = scoreText.GetComponent<Animation>();
         levelAnim = levelText.GetComponent<Animation>();
@@ -42,11 +46,25 @@ public class UIManager : MonoBehaviour
     private void HandleScoreEarned(ScoreEventData data)
     {
         GameObject notification = Instantiate(notificationPrefab);
-        notification.transform.position = data.pos;
+
+
+        RectInt bounds = board.Bounds;
+
+        int minX = bounds.xMin;
+        int maxX = bounds.xMax;
+
+        int minY = bounds.yMin;
+        int maxY = bounds.yMax;
+
+        Vector3 clampedPos = data.pos;
+        clampedPos.x = Mathf.Clamp(clampedPos.x, minX +2, maxX -2);
+        clampedPos.y = Mathf.Clamp(clampedPos.y, minY +3 , maxY -3);
+        notification.transform.position = clampedPos;
+
         scoreTypeText = notification.transform.GetChild(0).GetComponent<TextMeshPro>();
         scoreTypeText.text = data.scoreType.ToString();
         scoreAmountText = notification.transform.GetChild(1).GetComponent<TextMeshPro>();
-        scoreAmountText.text = data.scoreAmount.ToString();
+        scoreAmountText.text = "+" + data.scoreAmount.ToString();
     }
 
     public void UpdateScore(int score, bool isAnimated = false)
