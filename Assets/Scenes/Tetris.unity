@@ -669,10 +669,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Score Notification Text
       objectReference: {fileID: 0}
-    - target: {fileID: 3344371485826192867, guid: 7b79133c92be63149a00bf01bbb47084, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8012783326230366891, guid: 7b79133c92be63149a00bf01bbb47084, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
