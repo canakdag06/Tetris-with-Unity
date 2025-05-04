@@ -14,6 +14,7 @@ public class ScoreManager : MonoBehaviour
     private int score;
     private int level = 1;
     private int lines;
+    private int comboCount = -1;
 
     private int lastScore = -1;
     private int lastLevel = -1;
@@ -31,12 +32,29 @@ public class ScoreManager : MonoBehaviour
 
     public void IncreaseLines(int linesToAdd, Vector3 pos)
     {
+        if(linesToAdd == 0)
+        {
+            comboCount = -1;
+            return;
+        }
+
         score += lineClearScores[linesToAdd] * level;
         //Debug.Log("pos: " + pos);
         ScoreEventData data = new ScoreEventData(pos, GetScoreType(linesToAdd), lineClearScores[linesToAdd] * level);
         OnScoreEarned?.Invoke(data);
         lines += linesToAdd;
         level = (lines / 10) + 1;
+
+        //if(linesToAdd != 0)
+        //{
+        //    ComboCheck(comboCount, pos);
+        //}
+        //else
+        //{
+        //    comboCount = -1;
+        //}
+
+        ComboCheck(pos);
 
         ChangeScore(score, true);
         ChangeLevel(level);
@@ -81,6 +99,22 @@ public class ScoreManager : MonoBehaviour
             data = new ScoreEventData(pos, scoreType, scoreToAdd);
         }
         StartCoroutine(DelayedScoreEvent(data, 0.5f));
+    }
+
+    private void ComboCheck(Vector3 pos)
+    {
+        comboCount++;
+
+        if (comboCount > 0)
+        {
+            int comboScore = comboCount * 50;
+            Debug.Log($"Combo x{comboCount}! +{comboScore} points!");
+
+            ScoreEventData comboData = new ScoreEventData(pos, ScoreType.Combo, comboScore);
+            StartCoroutine(DelayedScoreEvent(comboData, 0.5f));
+
+            ChangeScore(comboScore, false);
+        }
     }
 
     private IEnumerator DelayedScoreEvent(ScoreEventData data, float delay)

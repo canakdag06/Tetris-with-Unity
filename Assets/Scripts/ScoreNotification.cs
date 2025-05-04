@@ -34,4 +34,5 @@ public enum ScoreType
     TSpinSingle,
     TSpinDouble,
     TSpinTriple,
+    Combo
 }
