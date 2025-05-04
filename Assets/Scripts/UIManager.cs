@@ -67,7 +67,6 @@ public class UIManager : MonoBehaviour
         if (data.scoreType == ScoreType.Combo)
         {
             scoreTypeText.text += $" x{data.scoreAmount / 50}!";
-            //Debug.Log($"Combo x{comboCount}! +{comboScore} points!");
         }
 
         scoreAmountText = notification.transform.GetChild(1).GetComponent<TextMeshPro>();

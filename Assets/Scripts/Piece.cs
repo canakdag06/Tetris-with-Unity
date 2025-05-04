@@ -292,13 +292,12 @@ public class Piece : MonoBehaviour
 
     private bool IsTSpin(Vector2Int position, int rotationIndex)
     {
-        // T'nin dört köşe noktası (relatif koordinatlar)
         Vector2Int[] cornerOffsets = new Vector2Int[]
         {
-        new Vector2Int(-1, 1), // Sol Üst
-        new Vector2Int(1, 1),  // Sağ Üst
-        new Vector2Int(-1, -1),// Sol Alt
-        new Vector2Int(1, -1)  // Sağ Alt
+        new Vector2Int(-1, 1),
+        new Vector2Int(1, 1),
+        new Vector2Int(-1, -1),
+        new Vector2Int(1, -1)
         };
 
         int filledCorners = 0;

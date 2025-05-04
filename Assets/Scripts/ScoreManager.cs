@@ -45,15 +45,6 @@ public class ScoreManager : MonoBehaviour
         lines += linesToAdd;
         level = (lines / 10) + 1;
 
-        //if(linesToAdd != 0)
-        //{
-        //    ComboCheck(comboCount, pos);
-        //}
-        //else
-        //{
-        //    comboCount = -1;
-        //}
-
         ComboCheck(pos);
 
         ChangeScore(score, true);
@@ -108,7 +99,6 @@ public class ScoreManager : MonoBehaviour
         if (comboCount > 0)
         {
             int comboScore = comboCount * 50;
-            Debug.Log($"Combo x{comboCount}! +{comboScore} points!");
 
             ScoreEventData comboData = new ScoreEventData(pos, ScoreType.Combo, comboScore);
             StartCoroutine(DelayedScoreEvent(comboData, 0.5f));
