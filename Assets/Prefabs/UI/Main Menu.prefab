@@ -90,7 +90,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4105636668417171961}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4509737999136740204}
+        m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
+        m_MethodName: PlayGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2103461557580391579
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -484,6 +496,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5380234640439272976}
   - component: {fileID: 1023587797018939482}
+  - component: {fileID: 4509737999136740204}
   m_Layer: 5
   m_Name: Main Menu
   m_TagString: Untagged
@@ -540,6 +553,18 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &4509737999136740204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4218861752883822777}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cb32d4c27e366a4cbd8ab333cf94c3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5575625964888166390
 GameObject:
   m_ObjectHideFlags: 0
