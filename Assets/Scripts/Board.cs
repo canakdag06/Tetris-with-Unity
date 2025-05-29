@@ -6,6 +6,8 @@ using UnityEngine.Tilemaps;
 
 public class Board : MonoBehaviour
 {
+    public static event Action<int> OnGameOver;
+
     public Tilemap tilemap { get; private set; }
     public Piece activePiece { get; private set; }
     public NextPiecesDisplayer nextPiecesDisplayer;
@@ -13,6 +15,7 @@ public class Board : MonoBehaviour
     public TetrominoData[] tetrominoes;
     public Vector3Int spawnPosition;
     public Vector2Int boardSize = new Vector2Int(10, 20);
+
 
     private List<int> bag = new();
     private List<int> tempBag = new();
@@ -196,7 +199,10 @@ public class Board : MonoBehaviour
     private void GameOver() // add UI later
     {
         tilemap.ClearAllTiles();
+        int finalScore = ScoreManager.Instance.Score;
         ScoreManager.Instance.ResetStats();
+
+        OnGameOver?.Invoke(finalScore);
     }
 
 

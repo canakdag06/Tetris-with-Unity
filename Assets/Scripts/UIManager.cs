@@ -36,11 +36,13 @@ public class UIManager : MonoBehaviour
     private void OnEnable()
     {
         ScoreManager.OnScoreEarned += HandleScoreEarned;
+        Board.OnGameOver += HandleGameOver;
     }
 
     private void OnDisable()
     {
         ScoreManager.OnScoreEarned -= HandleScoreEarned;
+        Board.OnGameOver -= HandleGameOver;
     }
 
     private void HandleScoreEarned(ScoreEventData data)
@@ -71,6 +73,11 @@ public class UIManager : MonoBehaviour
 
         scoreAmountText = notification.transform.GetChild(1).GetComponent<TextMeshPro>();
         scoreAmountText.text = "+" + data.scoreAmount.ToString();
+    }
+
+    private void HandleGameOver(int finalScore)
+    {
+
     }
 
     public void UpdateScore(int score, bool isAnimated = false)

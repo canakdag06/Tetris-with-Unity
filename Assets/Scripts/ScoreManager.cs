@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ScoreManager : MonoBehaviour
@@ -10,6 +11,10 @@ public class ScoreManager : MonoBehaviour
     public int Score => score;
     public int Level => level;
     public int Lines => lines;
+
+    private List<ScoreData> highScores = new List<ScoreData>();
+    private const int maxScores = 5;
+    private const string saveKey = "HighScores";
 
     private int score;
     private int level = 1;
@@ -26,7 +31,12 @@ public class ScoreManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance == null) Instance = this;
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+            LoadScores();
+        }
         else Destroy(gameObject);
     }
 
@@ -180,5 +190,61 @@ public class ScoreManager : MonoBehaviour
                 Debug.LogWarning("Unexpected line clear count: " + clearedLineCount);
                 return ScoreType.Single;
         }
+    }
+
+    public void AddNewScore(string name, int score)
+    {
+        highScores.Add(new ScoreData(name, score));
+        highScores = highScores
+            .OrderByDescending(s => s.score)
+            .Take(maxScores)
+            .ToList();
+        SaveScores();
+    }
+
+    public List<ScoreData> GetHighScores()
+    {
+        return new List<ScoreData>(highScores);
+    }
+
+    private void SaveScores()
+    {
+        string json = JsonUtility.ToJson(new ScoreList(highScores));
+        PlayerPrefs.SetString(saveKey, json);
+    }
+
+    private void LoadScores()
+    {
+        if(PlayerPrefs.HasKey(saveKey))
+        {
+            string json = PlayerPrefs.GetString(saveKey);
+            ScoreList loaded = JsonUtility.FromJson<ScoreList>(json);
+            highScores = loaded.scores;
+        }
+    }
+
+    [System.Serializable]
+    private class ScoreList     // this if for serializing high score list to json
+    {
+        public List<ScoreData> scores;
+
+        public ScoreList(List<ScoreData> list)
+        {
+            scores = list;
+        }
+    }
+}
+
+
+[System.Serializable]
+public class ScoreData
+{
+    public string playerName;
+    public int score;
+
+    public ScoreData(string name, int score)
+    {
+        this.playerName = name;
+        this.score = score;
     }
 }
