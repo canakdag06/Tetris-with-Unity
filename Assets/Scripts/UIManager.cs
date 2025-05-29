@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -82,6 +83,8 @@ public class UIManager : MonoBehaviour
     private void HandleGameOver(int finalScore)
     {
         gameOverPanel.SetActive(true);
+        gameOverPanel.transform.localScale = Vector3.zero;
+        gameOverPanel.transform.DOScale(Vector3.one, 0.5f).SetEase(Ease.OutBack);
     }
 
     public void UpdateScore(int score, bool isAnimated = false)
