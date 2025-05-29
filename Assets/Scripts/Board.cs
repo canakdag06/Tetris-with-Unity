@@ -196,13 +196,11 @@ public class Board : MonoBehaviour
         }
     }
 
-    private void GameOver() // add UI later
+    private void GameOver()
     {
-        tilemap.ClearAllTiles();
         int finalScore = ScoreManager.Instance.Score;
-        ScoreManager.Instance.ResetStats();
-
         OnGameOver?.Invoke(finalScore);
+        activePiece.enabled = false;
     }
 
 

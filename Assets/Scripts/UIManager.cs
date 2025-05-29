@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
@@ -20,6 +21,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject notificationPrefab;
     private TextMeshPro scoreTypeText;
     private TextMeshPro scoreAmountText;
+
+    [SerializeField] private GameObject gameOverPanel;
+    [SerializeField] private GameObject newHighScorePanel;
 
     private void Awake()
     {
@@ -77,7 +81,7 @@ public class UIManager : MonoBehaviour
 
     private void HandleGameOver(int finalScore)
     {
-
+        gameOverPanel.SetActive(true);
     }
 
     public void UpdateScore(int score, bool isAnimated = false)
@@ -100,5 +104,15 @@ public class UIManager : MonoBehaviour
     {
         linesText.text = lines.ToString();
         linesAnim.Play();
+    }
+
+    public void ReturnToMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
+
+    public void PlayAgain()
+    {
+        SceneManager.LoadScene("Tetris");
     }
 }
