@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -25,6 +26,10 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private GameObject gameOverPanel;
     [SerializeField] private GameObject newHighScorePanel;
+    [SerializeField] private TextMeshProUGUI newHighScoreTxt;
+    [SerializeField] private TMP_InputField nameInputField;
+
+    private int finalScore;
 
     private void Awake()
     {
@@ -64,8 +69,8 @@ public class UIManager : MonoBehaviour
         int maxY = bounds.yMax;
 
         Vector3 clampedPos = data.pos;
-        clampedPos.x = Mathf.Clamp(clampedPos.x, minX +2, maxX -2);
-        clampedPos.y = Mathf.Clamp(clampedPos.y, minY +3 , maxY -3);
+        clampedPos.x = Mathf.Clamp(clampedPos.x, minX + 2, maxX - 2);
+        clampedPos.y = Mathf.Clamp(clampedPos.y, minY + 3, maxY - 3);
         notification.transform.position = clampedPos;
 
         scoreTypeText = notification.transform.GetChild(0).GetComponent<TextMeshPro>();
@@ -82,9 +87,32 @@ public class UIManager : MonoBehaviour
 
     private void HandleGameOver(int finalScore)
     {
-        gameOverPanel.SetActive(true);
-        gameOverPanel.transform.localScale = Vector3.zero;
-        gameOverPanel.transform.DOScale(Vector3.one, 0.5f).SetEase(Ease.OutBack);
+        this.finalScore = finalScore;
+        int minHighScore = ScoreManager.Instance.GetHighScores().LastOrDefault()?.score ?? 0;
+
+        if (finalScore > minHighScore)
+        {
+            newHighScoreTxt.text = finalScore.ToString();
+            newHighScorePanel.SetActive(true);
+            nameInputField.text = "";
+            nameInputField.ActivateInputField();
+        }
+        else
+        {
+            ShowGameOverPanel();
+        }
+    }
+
+    public void OnSubmit()
+    {
+        string playerName = nameInputField.text;
+
+        if (string.IsNullOrWhiteSpace(playerName)) return;
+
+        ScoreManager.Instance.AddNewScore(playerName, finalScore);
+
+        newHighScorePanel.SetActive(false);
+        ShowGameOverPanel();
     }
 
     public void UpdateScore(int score, bool isAnimated = false)
@@ -117,5 +145,12 @@ public class UIManager : MonoBehaviour
     public void PlayAgain()
     {
         SceneManager.LoadScene("Tetris");
+    }
+
+    private void ShowGameOverPanel()
+    {
+        gameOverPanel.SetActive(true);
+        gameOverPanel.transform.localScale = Vector3.zero;
+        gameOverPanel.transform.DOScale(Vector3.one, 0.5f).SetEase(Ease.OutBack);
     }
 }

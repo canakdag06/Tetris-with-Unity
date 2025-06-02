@@ -12,7 +12,7 @@ public class ScoreManager : MonoBehaviour
     public int Level => level;
     public int Lines => lines;
 
-    private List<ScoreData> highScores = new List<ScoreData>();
+    public List<ScoreData> highScores = new List<ScoreData>();
     private const int maxScores = 5;
     private const string saveKey = "HighScores";
 
