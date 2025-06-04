@@ -193,7 +193,7 @@ public class ScoreManager : MonoBehaviour
 
     public void AddNewScore(string name, int score)
     {
-        highScores.Add(new ScoreData(name, score));
+        highScores.Add(new ScoreData(name.ToUpper() , score));
         highScores = highScores
             .OrderByDescending(s => s.score)
             .Take(maxScores)
