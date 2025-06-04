@@ -28,6 +28,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject newHighScorePanel;
     [SerializeField] private TextMeshProUGUI newHighScoreTxt;
     [SerializeField] private TMP_InputField nameInputField;
+    [SerializeField] private ScoreRowUI[] scoreRows;
 
     private int finalScore;
 
@@ -87,8 +88,9 @@ public class UIManager : MonoBehaviour
 
     private void HandleGameOver(int finalScore)
     {
+        List<ScoreData> list = ScoreManager.Instance.GetHighScores();
         this.finalScore = finalScore;
-        int minHighScore = ScoreManager.Instance.GetHighScores().LastOrDefault()?.score ?? 0;
+        int minHighScore = list.Count < 5 ? 0 : list.Last().score; /*ScoreManager.Instance.GetHighScores().LastOrDefault()?.score ?? 0;*/
 
         if (finalScore > minHighScore)
         {
@@ -152,5 +154,23 @@ public class UIManager : MonoBehaviour
         gameOverPanel.SetActive(true);
         gameOverPanel.transform.localScale = Vector3.zero;
         gameOverPanel.transform.DOScale(Vector3.one, 0.5f).SetEase(Ease.OutBack);
+        ShowHighScores();
+    }
+
+    private void ShowHighScores()
+    {
+        List<ScoreData> scores = ScoreManager.Instance.GetHighScores();
+
+        for (int i = 0; i < scoreRows.Length; i++)
+        {
+            if (i < scores.Count)
+            {
+                scoreRows[i].SetData(scores[i].playerName, scores[i].score);
+            }
+            else
+            {
+                scoreRows[i].SetData("---", 0);
+            }
+        }
     }
 }
