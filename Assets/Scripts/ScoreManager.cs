@@ -222,18 +222,18 @@ public class ScoreManager : MonoBehaviour
         }
     }
 
-    [System.Serializable]
-    private class ScoreList     // this if for serializing high score list to json
-    {
-        public List<ScoreData> scores;
-
-        public ScoreList(List<ScoreData> list)
-        {
-            scores = list;
-        }
-    }
 }
 
+[System.Serializable]
+public class ScoreList     // this if for serializing high score list to json
+{
+    public List<ScoreData> scores;
+
+    public ScoreList(List<ScoreData> list)
+    {
+        scores = list;
+    }
+}
 
 [System.Serializable]
 public class ScoreData
