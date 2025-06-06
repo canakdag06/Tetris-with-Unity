@@ -16,6 +16,9 @@ public class Board : MonoBehaviour
     public Vector3Int spawnPosition;
     public Vector2Int boardSize = new Vector2Int(10, 20);
 
+    public TetrominoData holdPieceData { get; private set; } = default;
+    private bool holdUsed = false;
+
 
     private List<int> bag = new();
     private List<int> tempBag = new();
@@ -70,6 +73,8 @@ public class Board : MonoBehaviour
     }
     public int GetNextPiece()
     {
+        holdUsed = false;
+
         if (bag.Count == 3)
         {
             GenerateNewBag();
@@ -153,6 +158,28 @@ public class Board : MonoBehaviour
         ScoreManager.Instance.IncreaseLines(lines, activePiece.position);
 
         return lines;
+    }
+
+    public void Hold()
+    {
+        if (holdUsed)
+            return;
+
+        Clear(activePiece);
+
+        if(holdPieceData.Equals(default(TetrominoData)))
+        {
+            holdPieceData = activePiece.data;
+            SpawnPiece(GetNextPiece());
+        }
+        else
+        {
+            TetrominoData temp = holdPieceData;
+            holdPieceData = activePiece.data;
+            SpawnPiece(Array.IndexOf(tetrominoes, temp));
+        }
+        holdUsed = true;
+        nextPiecesDisplayer.UpdateHoldPiece(holdPieceData);
     }
 
     private bool IsLineFull(int row)
