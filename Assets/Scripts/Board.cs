@@ -10,7 +10,7 @@ public class Board : MonoBehaviour
 
     public Tilemap tilemap { get; private set; }
     public Piece activePiece { get; private set; }
-    public NextPiecesDisplayer nextPiecesDisplayer;
+    public NextPiecesAndHoldDisplayer nextPiecesAndHoldDisplayer;
 
     public TetrominoData[] tetrominoes;
     public Vector3Int spawnPosition;
@@ -83,7 +83,7 @@ public class Board : MonoBehaviour
         // Take the last piece out of the bag
         int nextPieceIndex = bag[0];
         bag.RemoveAt(0);
-        nextPiecesDisplayer.UpdateNextPiecesDisplay(bag);
+        nextPiecesAndHoldDisplayer.UpdateNextPiecesDisplay(bag);
         return nextPieceIndex;
     }
 
@@ -179,7 +179,7 @@ public class Board : MonoBehaviour
             SpawnPiece(Array.IndexOf(tetrominoes, temp));
         }
         holdUsed = true;
-        nextPiecesDisplayer.UpdateHoldPiece(holdPieceData);
+        nextPiecesAndHoldDisplayer.UpdateHoldPiece(holdPieceData);
     }
 
     private bool IsLineFull(int row)

@@ -452,6 +452,10 @@ PrefabInstance:
       propertyPath: nextPiecesDisplayer
       value: 
       objectReference: {fileID: 1661854724}
+    - target: {fileID: 856866988244430579, guid: e73460ddf4beb6341bf71f5689825ed2, type: 3}
+      propertyPath: nextPiecesAndHoldDisplayer
+      value: 
+      objectReference: {fileID: 1661854724}
     - target: {fileID: 4132883996922702887, guid: e73460ddf4beb6341bf71f5689825ed2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class NextPiecesDisplayer : MonoBehaviour
+public class NextPiecesAndHoldDisplayer : MonoBehaviour
 {
     public Board board;
     public Tilemap sharedTilemap;
