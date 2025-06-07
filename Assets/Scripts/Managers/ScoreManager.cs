@@ -48,7 +48,6 @@ public class ScoreManager : MonoBehaviour
         }
 
         score += lineClearScores[linesToAdd] * level;
-        //Debug.Log("pos: " + pos);
         ScoreEventData data = new ScoreEventData(pos, GetScoreType(linesToAdd), lineClearScores[linesToAdd] * level);
         OnScoreEarned?.Invoke(data);
         lines += linesToAdd;
@@ -136,6 +135,7 @@ public class ScoreManager : MonoBehaviour
         lastLevel = newLevel;
 
         UIManager.Instance.UpdateLevel(level);
+        AudioManager.Instance.PlaySFX(SoundType.LevelUp);
     }
 
     private void ChangeLines(int newLines)

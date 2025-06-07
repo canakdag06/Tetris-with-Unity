@@ -142,6 +142,7 @@ public class Piece : MonoBehaviour
                     else
                     {
                         holdTime = initialDelay;
+                        AudioManager.Instance.PlaySFX(SoundType.Move);
                     }
                 }
             }
@@ -153,6 +154,7 @@ public class Piece : MonoBehaviour
                     if (Move(direction))
                     {
                         holdTime = repeatDelay;
+                        AudioManager.Instance.PlaySFX(SoundType.Move);
                     }
                 }
             }
@@ -179,6 +181,8 @@ public class Piece : MonoBehaviour
             rotationIndex = originalRotation;
             ApplyRotationMatrix(-direction);
         }
+
+        AudioManager.Instance.PlaySFX(SoundType.Rotate);
     }
 
     private void ApplyRotationMatrix(int direction)
@@ -232,6 +236,8 @@ public class Piece : MonoBehaviour
         {
             CheckTSpin(clearedLines);
         }
+
+        AudioManager.Instance.PlaySFX(SoundType.Lock);
 
         board.SpawnPiece(board.GetNextPiece());
     }

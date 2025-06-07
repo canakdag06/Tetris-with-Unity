@@ -156,6 +156,8 @@ public class Board : MonoBehaviour
         }
 
         ScoreManager.Instance.IncreaseLines(lines, activePiece.position);
+        if (lines > 0)
+            AudioManager.Instance.PlaySFX(SoundType.LineClear);
 
         return lines;
     }
@@ -163,7 +165,10 @@ public class Board : MonoBehaviour
     public void Hold()
     {
         if (holdUsed)
+        {
+            AudioManager.Instance.PlaySFX(SoundType.HoldFailed);
             return;
+        }
 
         Clear(activePiece);
 
@@ -179,6 +184,7 @@ public class Board : MonoBehaviour
             SpawnPiece(Array.IndexOf(tetrominoes, temp));
         }
         holdUsed = true;
+        AudioManager.Instance.PlaySFX(SoundType.Hold);
         nextPiecesAndHoldDisplayer.UpdateHoldPiece(holdPieceData);
     }
 

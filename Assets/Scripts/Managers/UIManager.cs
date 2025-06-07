@@ -84,6 +84,8 @@ public class UIManager : MonoBehaviour
 
         scoreAmountText = notification.transform.GetChild(1).GetComponent<TextMeshPro>();
         scoreAmountText.text = "+" + data.scoreAmount.ToString();
+
+        AudioManager.Instance.PlaySFX(SoundType.ComboNotification);
     }
 
     private void HandleGameOver(int finalScore)
@@ -98,10 +100,12 @@ public class UIManager : MonoBehaviour
             newHighScorePanel.SetActive(true);
             nameInputField.text = "";
             nameInputField.ActivateInputField();
+            AudioManager.Instance.PlaySFX(SoundType.NewHighScore);
         }
         else
         {
             ShowGameOverPanel();
+            AudioManager.Instance.PlaySFX(SoundType.GameOver);
         }
     }
 
