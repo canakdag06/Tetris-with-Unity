@@ -135,7 +135,6 @@ public class ScoreManager : MonoBehaviour
         lastLevel = newLevel;
 
         UIManager.Instance.UpdateLevel(level);
-        AudioManager.Instance.PlaySFX(SoundType.LevelUp);
     }
 
     private void ChangeLines(int newLines)

@@ -134,12 +134,17 @@ public class UIManager : MonoBehaviour
     public void UpdateLevel(int level)
     {
         levelText.text = level.ToString();
+        if (level == 1)
+            return;
         levelAnim.Play();
+        AudioManager.Instance.PlaySFX(SoundType.LevelUp);
     }
 
     public void UpdateLines(int lines)
     {
         linesText.text = lines.ToString();
+        if (lines == 0)
+            return;
         linesAnim.Play();
     }
 
