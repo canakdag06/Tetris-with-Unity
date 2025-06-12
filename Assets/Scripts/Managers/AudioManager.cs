@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    public static AudioManager Instance;    // Instance neden büyük harfle baþlýyor?
+    public static AudioManager Instance;
 
     public SoundData soundData;
     public AudioSource sfxSource;
