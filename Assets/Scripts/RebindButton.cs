@@ -10,6 +10,7 @@ public class RebindButton : MonoBehaviour
 
     private void OnEnable()
     {
+        LoadOverride();
         UpdateBindingDisplay();
     }
 
@@ -35,4 +36,15 @@ public class RebindButton : MonoBehaviour
             actionReference.action.bindings[bindingIndex].effectivePath,
             InputControlPath.HumanReadableStringOptions.OmitDevice);
     }
+
+    private void LoadOverride()
+    {
+        string bindingKey = actionReference.action.name + "_binding_" + bindingIndex;
+        if (PlayerPrefs.HasKey(bindingKey))
+        {
+            string overridePath = PlayerPrefs.GetString(bindingKey);
+            actionReference.action.ApplyBindingOverride(bindingIndex, overridePath);
+        }
+    }
+
 }
