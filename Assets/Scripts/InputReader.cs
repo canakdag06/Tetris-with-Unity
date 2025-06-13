@@ -49,11 +49,14 @@ public class InputReader : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+    }
+
+    public void ResetInputs()
+    {
         RotateCW = false;
         RotateCCW = false;
         HardDrop = false;
         Hold = false;
     }
-
-
 }

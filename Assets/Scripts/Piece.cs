@@ -14,6 +14,7 @@ public class Piece : MonoBehaviour
     public float initialDelay = 0.5f; // delay for first move
     public float repeatDelay = 0.1f;   // delay for repated moves
 
+    private InputReader inputReader;
     private Vector2 moveInput;
     private float stepTime;
     private float lockTime;
@@ -23,6 +24,10 @@ public class Piece : MonoBehaviour
 
     private int clearedLines;
 
+    private void Awake()
+    {
+        inputReader = InputReader.Instance;
+    }
 
     public void Initialize(Board board, Vector3Int position, TetrominoData data)
     {
@@ -77,21 +82,21 @@ public class Piece : MonoBehaviour
 
 
 
-        if (Input.GetKeyDown(KeyCode.W))    // Clockwise Rotation
+        if (inputReader.RotateCW)    // Clockwise Rotation
         {
             Rotate(1);
         }
-        else if (Input.GetKeyDown(KeyCode.LeftControl))     // Counter Clockwise Rotation
+        else if (inputReader.RotateCCW)     // Counter Clockwise Rotation
         {
             Rotate(-1);
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (inputReader.HardDrop)
         {
             HardDrop();
         }
 
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+        if (inputReader.Hold)
         {
             board.Hold();
         }
@@ -100,7 +105,7 @@ public class Piece : MonoBehaviour
         {
             Step();
         }
-
+        inputReader.ResetInputs();
         board.Set(this);    // sets the new situation of board after the new position is processed. MIGHT BE OPTIMIZED
     }
 
