@@ -46,6 +46,7 @@ public class Board : MonoBehaviour
 
     private void Start()
     {
+        InputReader.Instance.ResetInputs();
         ScoreManager.Instance.ResetStats();
         bag.Clear();
         GenerateNewBag();
