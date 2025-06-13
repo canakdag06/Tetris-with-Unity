@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class InputReader : MonoBehaviour
 {
+    public static InputReader Instance { get; private set; }
+
     public Vector2 MoveInput { get; private set; }
     public bool RotateCW { get; private set; }
     public bool RotateCCW { get; private set; }
@@ -16,6 +18,15 @@ public class InputReader : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+
         input = new GameInput();
 
         input.Gameplay.Move.performed += ctx => MoveInput = ctx.ReadValue<Vector2>();

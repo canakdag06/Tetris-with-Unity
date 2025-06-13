@@ -14,6 +14,7 @@ public class Piece : MonoBehaviour
     public float initialDelay = 0.5f; // delay for first move
     public float repeatDelay = 0.1f;   // delay for repated moves
 
+    private Vector2 moveInput;
     private float stepTime;
     private float lockTime;
     private float verticalHoldTime = 0f;     // while the player holds down the key, it stores when the next move will occur
@@ -49,24 +50,32 @@ public class Piece : MonoBehaviour
         board.Clear(this);      // clears the board just before the new position occurs. MIGHT BE OPTIMIZED
         lockTime += Time.deltaTime;
 
+        moveInput = InputReader.Instance.MoveInput;
 
-        HandleInput(KeyCode.A, Vector2Int.left, ref horizontalHoldTime);
-        HandleInput(KeyCode.D, Vector2Int.right, ref horizontalHoldTime);
-        HandleInput(KeyCode.S, Vector2Int.down, ref verticalHoldTime);
+        if (moveInput.x < 0)
+        {
+            HandleInput(Vector2Int.left, ref horizontalHoldTime);
+        }
+        else if (moveInput.x > 0)
+        {
+            HandleInput(Vector2Int.right, ref horizontalHoldTime);
+        }
+        else
+        {
+            horizontalHoldTime = 0f;
+        }
 
-        //if (Input.GetKeyDown(KeyCode.A))
-        //{
-        //    Move(Vector2Int.left);
-        //}
-        //else if (Input.GetKeyDown(KeyCode.D))
-        //{
-        //    Move(Vector2Int.right);
-        //}
+        if (moveInput.y < 0)
+        {
+            HandleInput(Vector2Int.down, ref verticalHoldTime);
+        }
+        else
+        {
+            verticalHoldTime = 0f;
+            isDroppingManually = false;
+        }
 
-        //if (Input.GetKeyDown(KeyCode.S))
-        //{
-        //    Move(Vector2Int.down);
-        //}
+
 
         if (Input.GetKeyDown(KeyCode.W))    // Clockwise Rotation
         {
@@ -125,47 +134,35 @@ public class Piece : MonoBehaviour
         return isValid;
     }
 
-    private void HandleInput(KeyCode key, Vector2Int direction, ref float holdTime)
+    private void HandleInput(Vector2Int direction, ref float holdTime)
     {
-        if (Input.GetKey(key))
+        if (holdTime <= 0f)
         {
-            if (holdTime == 0f)
+            if (Move(direction))
             {
-                if (Move(direction))
+                if (direction == Vector2Int.down)
                 {
-                    if (direction == Vector2Int.down)    // moving down repeatedly has no initial delay
-                    {
-                        isDroppingManually = true;
-                        ScoreManager.Instance.AddDropScore();
-                        holdTime = repeatDelay;
-                    }
-                    else
-                    {
-                        holdTime = initialDelay;
-                        AudioManager.Instance.PlaySFX(SoundType.Move);
-                    }
+                    isDroppingManually = true;
+                    ScoreManager.Instance.AddDropScore();
+                    holdTime = repeatDelay;
                 }
-            }
-            else
-            {   // Key Repeat
-                holdTime -= Time.deltaTime;
-                if (holdTime <= 0f)
+                else
                 {
-                    if (Move(direction))
-                    {
-                        holdTime = repeatDelay;
-                        AudioManager.Instance.PlaySFX(SoundType.Move);
-                    }
+                    holdTime = initialDelay;
+                    AudioManager.Instance.PlaySFX(SoundType.Move);
                 }
             }
         }
-        else if (Input.GetKeyUp(key))
+        else
         {
-            holdTime = 0f;
-
-            if (key == KeyCode.S)
+            holdTime -= Time.deltaTime;
+            if (holdTime <= 0f)
             {
-                isDroppingManually = false;
+                if (Move(direction))
+                {
+                    holdTime = repeatDelay;
+                    AudioManager.Instance.PlaySFX(SoundType.Move);
+                }
             }
         }
     }
@@ -232,7 +229,7 @@ public class Piece : MonoBehaviour
     {
         board.Set(this);
         clearedLines = board.ClearLines();
-        if(data.tetromino == Tetromino.T)
+        if (data.tetromino == Tetromino.T)
         {
             CheckTSpin(clearedLines);
         }
@@ -326,7 +323,7 @@ public class Piece : MonoBehaviour
 
     private void CheckTSpin(int linesCleared)
     {
-        bool isTSpin = IsTSpin(new Vector2Int(position.x,position.y), rotationIndex);
+        bool isTSpin = IsTSpin(new Vector2Int(position.x, position.y), rotationIndex);
 
         if (isTSpin)
         {
