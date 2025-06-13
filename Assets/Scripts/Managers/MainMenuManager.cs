@@ -1,10 +1,12 @@
 using DG.Tweening;
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class MainMenuManager : MonoBehaviour
 {
     [SerializeField] private GameObject scoreBoardPanel;
+    [SerializeField] private GameObject settingsPanel;
     [SerializeField] private ScoreRowUI[] scoreRows;
 
     public void PlayGame()
@@ -12,18 +14,39 @@ public class MainMenuManager : MonoBehaviour
         SceneManager.LoadScene("Tetris");
     }
 
+    public void OpenPanel(GameObject panel, Action afterOpen = null)
+    {
+        panel.SetActive(true);
+        panel.transform.localScale = Vector3.zero;
+        panel.transform.DOScale(Vector3.one, 0.5f)
+            .SetEase(Ease.OutBack)
+            .OnComplete(() => afterOpen?.Invoke());
+    }
+
+    public void ClosePanel(GameObject panel)
+    {
+        panel.transform.DOScale(Vector3.zero, 0.25f)
+            .OnComplete(() => panel.SetActive(false));
+    }
+
     public void OpenScoreBoard()
     {
-        scoreBoardPanel.SetActive(true);
-        scoreBoardPanel.transform.localScale = Vector3.zero;
-        scoreBoardPanel.transform.DOScale(Vector3.one, 0.5f).SetEase(Ease.OutBack);
-        LoadScoreBoard();
+        OpenPanel(scoreBoardPanel, LoadScoreBoard);
+    }
+
+    public void OpenSettings()
+    {
+        OpenPanel(settingsPanel);
     }
 
     public void CloseScoreBoard()
     {
-        scoreBoardPanel.transform.DOScale(Vector3.zero, 0.25f)
-            .OnComplete(() => scoreBoardPanel.SetActive(false));
+        ClosePanel(scoreBoardPanel);
+    }
+
+    public void CloseSettings()
+    {
+        ClosePanel(settingsPanel);
     }
 
     public void LoadScoreBoard()

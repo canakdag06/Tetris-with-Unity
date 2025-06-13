@@ -54,17 +54,6 @@
             "bindings": [
                 {
                     "name": "",
-                    "id": "2b17d086-3b13-4cd4-9cce-b31863f962a9",
-                    "path": "<Keyboard>/w",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "RotateCW",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "da44b089-8cea-4d8b-87f3-bef57738387d",
                     "path": "<Keyboard>/upArrow",
                     "interactions": "",

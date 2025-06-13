@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class InputReader : MonoBehaviour
 {
@@ -28,7 +30,7 @@ public class InputReader : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         input = new GameInput();
-
+        input?.Gameplay.Enable();
         input.Gameplay.Move.performed += ctx => MoveInput = ctx.ReadValue<Vector2>();
         input.Gameplay.Move.canceled += ctx => MoveInput = Vector2.zero;
 
@@ -40,17 +42,11 @@ public class InputReader : MonoBehaviour
 
         input.Gameplay.Hold.performed += ctx => Hold = true;
 
+        SceneManager.activeSceneChanged += OnSceneChanged; // listen scene changes & load bindings
+        InitializeBindings();
     }
 
-    private void OnEnable() => input.Gameplay.Enable();
-    private void OnDisable() => input.Gameplay.Disable();
-
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
+    private void OnDisable() => input?.Gameplay.Disable();
 
     public void ResetInputs()
     {
@@ -58,5 +54,31 @@ public class InputReader : MonoBehaviour
         RotateCCW = false;
         HardDrop = false;
         Hold = false;
+    }
+
+    public void InitializeBindings()
+    {
+        foreach (var action in input.asset)
+        {
+            for (int i = 0; i < action.bindings.Count; i++)
+            {
+                string key = action.name + "_binding_" + i;
+                if (PlayerPrefs.HasKey(key))
+                {
+                    string overridePath = PlayerPrefs.GetString(key);
+                    action.ApplyBindingOverride(i, overridePath);
+                }
+            }
+        }
+    }
+
+    private void OnDestroy()
+    {
+        SceneManager.activeSceneChanged -= OnSceneChanged;
+    }
+
+    private void OnSceneChanged(Scene _, Scene __)
+    {
+        InitializeBindings();
     }
 }
