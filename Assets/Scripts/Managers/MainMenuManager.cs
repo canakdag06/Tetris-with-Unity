@@ -31,7 +31,8 @@ public class MainMenuManager : MonoBehaviour
 
     public void OpenScoreBoard()
     {
-        OpenPanel(scoreBoardPanel, LoadScoreBoard);
+        LoadScoreBoard();
+        OpenPanel(scoreBoardPanel);
     }
 
     public void OpenSettings()
