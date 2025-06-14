@@ -46,9 +46,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b30fa648b1ba9a47b9c3de567a5c3fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mixer: {fileID: 24100000, guid: 455256d66584cc049a65479412c7b6d8, type: 2}
   soundData: {fileID: 11400000, guid: e7f03889114b7c24ea5b9f97f765d2e5, type: 2}
   sfxSource: {fileID: 6095343955253288842}
   musicSource: {fileID: 6229346655694003114}
+  musicSlider: {fileID: 0}
+  sfxSlider: {fileID: 0}
 --- !u!82 &6095343955253288842
 AudioSource:
   m_ObjectHideFlags: 0
@@ -157,7 +160,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 458734507991769194, guid: 455256d66584cc049a65479412c7b6d8, type: 2}
   m_audioClip: {fileID: 8300000, guid: 7198343e1671fff42941ad63e5b231e9, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 1
   Mute: 0
