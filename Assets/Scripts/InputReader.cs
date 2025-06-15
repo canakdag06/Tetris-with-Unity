@@ -13,8 +13,9 @@ public class InputReader : MonoBehaviour
     public bool RotateCCW { get; private set; }
     public bool HardDrop { get; private set; }
     public bool Hold { get; private set; }
-
+    public GameInput InputActions => input;
     private GameInput input;
+
 
 
 
