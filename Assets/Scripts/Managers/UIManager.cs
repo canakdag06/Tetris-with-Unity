@@ -26,12 +26,13 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private GameObject gameOverPanel;
     [SerializeField] private GameObject newHighScorePanel;
+    [SerializeField] private GameObject exitGamePanel;
     [SerializeField] private TextMeshProUGUI newHighScoreTxt;
     [SerializeField] private TMP_InputField nameInputField;
     [SerializeField] private ScoreRowUI[] scoreRows;
 
     private int finalScore;
-
+    private bool isPaused = false;
     private void Awake()
     {
         if (Instance == null) Instance = this;
@@ -48,12 +49,14 @@ public class UIManager : MonoBehaviour
     {
         ScoreManager.OnScoreEarned += HandleScoreEarned;
         Board.OnGameOver += HandleGameOver;
+        InputReader.Instance.OnPause += TogglePause;
     }
 
     private void OnDisable()
     {
         ScoreManager.OnScoreEarned -= HandleScoreEarned;
         Board.OnGameOver -= HandleGameOver;
+        InputReader.Instance.OnPause -= TogglePause;
     }
 
     private void HandleScoreEarned(ScoreEventData data)
@@ -181,5 +184,45 @@ public class UIManager : MonoBehaviour
                 scoreRows[i].SetData("---", 0);
             }
         }
+    }
+
+    private void ShowExitGamePanel()
+    {
+        exitGamePanel.SetActive(true);
+        exitGamePanel.transform.localScale = Vector3.zero;
+        exitGamePanel.transform.DOScale(Vector3.one, 0.5f).SetEase(Ease.OutBack)
+        .SetUpdate(true);
+    }
+
+    public void TogglePause()
+    {
+        isPaused = !isPaused;
+
+        if (isPaused)
+        {
+            InputReader.Instance.InputActions.Disable();
+            Time.timeScale = 0f;
+            ShowExitGamePanel();
+        }
+        else
+        {
+            InputReader.Instance.InputActions.Enable();
+            Time.timeScale = 1f;
+            exitGamePanel.SetActive(false);
+        }
+    }
+
+    public void ConfirmExit()
+    {
+        InputReader.Instance.InputActions.Enable();
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("MainMenu");
+    }
+
+    public void CancelExit()
+    {
+        TogglePause();
+        exitGamePanel.transform.DOScale(Vector3.zero, 0.25f)
+            .OnComplete(() => exitGamePanel.SetActive(false)).SetUpdate(true);
     }
 }

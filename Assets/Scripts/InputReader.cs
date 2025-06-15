@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,11 +14,11 @@ public class InputReader : MonoBehaviour
     public bool RotateCCW { get; private set; }
     public bool HardDrop { get; private set; }
     public bool Hold { get; private set; }
+    public bool Escape { get; private set; }
     public GameInput InputActions => input;
     private GameInput input;
 
-
-
+    public event Action OnPause;
 
     private void Awake()
     {
@@ -43,6 +44,8 @@ public class InputReader : MonoBehaviour
 
         input.Gameplay.Hold.performed += ctx => Hold = true;
 
+        input.Gameplay.Escape.performed += ctx => OnPause?.Invoke();
+
         SceneManager.activeSceneChanged += OnSceneChanged; // listen scene changes & load bindings
         InitializeBindings();
     }
@@ -55,6 +58,7 @@ public class InputReader : MonoBehaviour
         RotateCCW = false;
         HardDrop = false;
         Hold = false;
+        Escape = false;
     }
 
     public void InitializeBindings()

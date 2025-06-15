@@ -21,7 +21,7 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] private ScoreRowUI[] scoreRows;
 
     private Action confirmationAction;
-    private string[] actions = { "Move", "RotateCW", "RotateCCW", "HardDrop", "Hold" };
+    private string[] actions = { "Move", "RotateCW", "RotateCCW", "HardDrop", "Hold", "Escape" };
 
 
 
@@ -149,6 +149,11 @@ public class MainMenuManager : MonoBehaviour
     public void OnResetKeyBindings()
     {
         ShowConfirmation("Reset Key Bindings?", ResetKeyBindings);
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 
     private void ResetHighScores()
