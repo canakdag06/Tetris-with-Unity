@@ -18,8 +18,9 @@ public class Board : MonoBehaviour
 
     public TetrominoData holdPieceData { get; private set; } = default;
     private bool holdUsed = false;
-
-
+    public float stepDelay;
+    public float[] stepDelays = { 1f, 0.9f, 0.8f, 0.7f, 0.6f, 0.5f, 0.4f, 0.3f, 0.2f, 0.1f };
+    private int stepDelayIndex = 0;
     private List<int> bag = new();
     private List<int> tempBag = new();
     private System.Random random = new();
@@ -31,6 +32,16 @@ public class Board : MonoBehaviour
             Vector2Int position = new Vector2Int(-boardSize.x / 2, -boardSize.y / 2);   // bottom left point
             return new RectInt(position, boardSize);
         }
+    }
+
+    private void OnEnable()
+    {
+        ScoreManager.OnLevelChanged += HandleLevelChanged;
+    }
+
+    private void OnDisable()
+    {
+        ScoreManager.OnLevelChanged -= HandleLevelChanged;
     }
 
     private void Awake()
@@ -48,6 +59,7 @@ public class Board : MonoBehaviour
     {
         InputReader.Instance.ResetInputs();
         ScoreManager.Instance.ResetStats();
+        stepDelay = stepDelays[stepDelayIndex];
         bag.Clear();
         GenerateNewBag();
         SpawnPiece(GetNextPiece());
@@ -90,8 +102,7 @@ public class Board : MonoBehaviour
 
     public void SpawnPiece(int random)
     {
-        //int random = Random.Range(0, this.tetrominoes.Length);
-        //TetrominoData data = this.tetrominoes[random];
+        ;
         TetrominoData data = this.tetrominoes[random];
 
         this.activePiece.Initialize(this, this.spawnPosition, data);
@@ -173,7 +184,7 @@ public class Board : MonoBehaviour
 
         Clear(activePiece);
 
-        if(holdPieceData.Equals(default(TetrominoData)))
+        if (holdPieceData.Equals(default(TetrominoData)))
         {
             holdPieceData = activePiece.data;
             SpawnPiece(GetNextPiece());
@@ -187,6 +198,13 @@ public class Board : MonoBehaviour
         holdUsed = true;
         AudioManager.Instance.PlaySFX(SoundType.Hold);
         nextPiecesAndHoldDisplayer.UpdateHoldPiece(holdPieceData);
+    }
+
+    private void HandleLevelChanged()
+    {
+        if (stepDelayIndex == 10) return;
+        stepDelayIndex++;
+        stepDelay = stepDelays[stepDelayIndex];
     }
 
     private bool IsLineFull(int row)

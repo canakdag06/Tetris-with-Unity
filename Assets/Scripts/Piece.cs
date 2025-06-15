@@ -9,7 +9,6 @@ public class Piece : MonoBehaviour
     public Vector3Int position { get; private set; }
     public int rotationIndex { get; private set; }
 
-    public float stepDelay = 1f;
     public float lockDelay = 0.5f;
     public float initialDelay = 0.5f; // delay for first move
     public float repeatDelay = 0.1f;   // delay for repated moves
@@ -35,7 +34,7 @@ public class Piece : MonoBehaviour
         this.position = position;
         this.data = data;
         this.rotationIndex = 0;
-        this.stepTime = Time.time + this.stepDelay;
+        this.stepTime = Time.time + board.stepDelay;
         this.lockTime = 0f;
 
 
@@ -217,7 +216,7 @@ public class Piece : MonoBehaviour
 
     private void Step()
     {
-        stepTime = Time.time + this.stepDelay;
+        stepTime = Time.time + board.stepDelay;
 
         if (!isDroppingManually) // because it drops 2 steps in common multiples of delay values
         {

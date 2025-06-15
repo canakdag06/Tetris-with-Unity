@@ -28,6 +28,7 @@ public class ScoreManager : MonoBehaviour
     private static readonly int[] lineClearScores = { 0, 100, 300, 500, 800 };
 
     public static event Action<ScoreEventData> OnScoreEarned;
+    public static event Action OnLevelChanged;
 
     private void Awake()
     {
@@ -133,7 +134,7 @@ public class ScoreManager : MonoBehaviour
     {
         if (lastLevel == newLevel) return;
         lastLevel = newLevel;
-
+        OnLevelChanged?.Invoke();
         UIManager.Instance.UpdateLevel(level);
     }
 
