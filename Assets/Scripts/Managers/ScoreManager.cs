@@ -42,7 +42,7 @@ public class ScoreManager : MonoBehaviour
 
     public void IncreaseLines(int linesToAdd, Vector3 pos)
     {
-        if(linesToAdd == 0)
+        if (linesToAdd == 0)
         {
             comboCount = -1;
             return;
@@ -214,7 +214,7 @@ public class ScoreManager : MonoBehaviour
 
     private void LoadScores()
     {
-        if(PlayerPrefs.HasKey(saveKey))
+        if (PlayerPrefs.HasKey(saveKey))
         {
             string json = PlayerPrefs.GetString(saveKey);
             ScoreList loaded = JsonUtility.FromJson<ScoreList>(json);

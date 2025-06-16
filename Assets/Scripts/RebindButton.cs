@@ -20,6 +20,7 @@ public class RebindButton : MonoBehaviour
 
         actionReference.action.PerformInteractiveRebinding(bindingIndex)
             .WithControlsExcluding("Mouse")
+            .WithControlsExcluding("Keyboard/escape")
             .OnComplete(operation =>
             {
                 operation.Dispose();
@@ -32,7 +33,6 @@ public class RebindButton : MonoBehaviour
 
     public void UpdateBindingDisplay()
     {
-        Debug.Log("bindingText.text: " + bindingText.text);
         bindingText.text = InputControlPath.ToHumanReadableString(
             actionReference.action.bindings[bindingIndex].effectivePath,
             InputControlPath.HumanReadableStringOptions.OmitDevice);

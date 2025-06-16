@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.Tilemaps;
 
 public class Piece : MonoBehaviour
 {
@@ -105,7 +104,7 @@ public class Piece : MonoBehaviour
             Step();
         }
         inputReader.ResetInputs();
-        board.Set(this);    // sets the new situation of board after the new position is processed. MIGHT BE OPTIMIZED
+        board.Set(this);    // sets the new situation of board after the new position is processed.
     }
 
     private bool Move(Vector2Int translation)
@@ -281,11 +280,6 @@ public class Piece : MonoBehaviour
         {
             return min + (input - min) % (max - min);
         }
-        /*
-         * ?
-         * return ((input - min) % (max - min)) + min;
-         * ?
-         */
     }
 
     private void HardDrop()
@@ -337,10 +331,7 @@ public class Piece : MonoBehaviour
             else if (linesCleared == 1) scoreToAdd = 800;  // T-Spin Single
             else if (linesCleared == 2) scoreToAdd = 1200; // T-Spin Double
             else if (linesCleared == 3) scoreToAdd = 1600; // T-Spin + Triple
-            Debug.Log("T SPIN!: " + scoreToAdd + " points.");
-            Debug.Log("linesCleared : " + linesCleared);
             ScoreManager.Instance.IncreaseLines(scoreToAdd, linesCleared, this.position);
-            //data.tile.transform.GetPosition()
         }
     }
 

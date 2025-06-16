@@ -13,9 +13,8 @@ public class NextPiecesAndHoldDisplayer : MonoBehaviour
 
     public void UpdateNextPiecesDisplay(List<int> bag)
     {
-        //sharedTilemap.ClearAllTiles();
-        ClearArea(new Vector3Int(-3,-7,0),
-                  new Vector3Int(3,7,0));
+        ClearArea(new Vector3Int(-3, -7, 0),
+                  new Vector3Int(3, 7, 0));
         var nextTetrominos = bag.Take(3).ToList();
 
         Vector3Int drawPosition = nextPieceStartPosition;
@@ -37,7 +36,6 @@ public class NextPiecesAndHoldDisplayer : MonoBehaviour
         {
             Vector3Int tilePosition = holdPiecePosition + (Vector3Int)cell;
             sharedTilemap.SetTile(tilePosition, data.tile);
-            //Debug.Log("Piece: " + tilePosition);
         }
     }
 
@@ -52,7 +50,6 @@ public class NextPiecesAndHoldDisplayer : MonoBehaviour
         foreach (var cell in cells)
         {
             Vector3Int tilePosition = position + (Vector3Int)cell;
-            //Debug.Log($"Drawing Tetromino at: {tilePosition}");
             sharedTilemap.SetTile(tilePosition, board.tetrominoes[((int)tetromino)].tile);
         }
     }
@@ -70,7 +67,6 @@ public class NextPiecesAndHoldDisplayer : MonoBehaviour
             {
                 Vector3Int pos = new Vector3Int(x, y, 0);
                 sharedTilemap.SetTile(pos, null);
-                //Debug.Log("CLEAR: " + pos);
             }
         }
     }

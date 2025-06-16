@@ -1,5 +1,4 @@
 using DG.Tweening;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -95,7 +94,7 @@ public class UIManager : MonoBehaviour
     {
         List<ScoreData> list = ScoreManager.Instance.GetHighScores();
         this.finalScore = finalScore;
-        int minHighScore = list.Count < 5 ? 0 : list.Last().score; /*ScoreManager.Instance.GetHighScores().LastOrDefault()?.score ?? 0;*/
+        int minHighScore = list.Count < 5 ? 0 : list.Last().score;
 
         if (finalScore > minHighScore)
         {

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -67,8 +66,6 @@ public class Board : MonoBehaviour
 
     private void GenerateNewBag()
     {
-        //bag.Clear();
-
         foreach (Tetromino tetromino in Enum.GetValues(typeof(Tetromino)))
         {
             tempBag.Add((int)tetromino);
@@ -254,6 +251,5 @@ public class Board : MonoBehaviour
         OnGameOver?.Invoke(finalScore);
         activePiece.enabled = false;
     }
-
 
 }
