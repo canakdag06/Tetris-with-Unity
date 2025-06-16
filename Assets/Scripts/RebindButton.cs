@@ -30,14 +30,15 @@ public class RebindButton : MonoBehaviour
             }).Start();
     }
 
-    private void UpdateBindingDisplay()
+    public void UpdateBindingDisplay()
     {
+        Debug.Log("bindingText.text: " + bindingText.text);
         bindingText.text = InputControlPath.ToHumanReadableString(
             actionReference.action.bindings[bindingIndex].effectivePath,
             InputControlPath.HumanReadableStringOptions.OmitDevice);
     }
 
-    private void LoadOverride()
+    public void LoadOverride()
     {
         string bindingKey = actionReference.action.name + "_binding_" + bindingIndex;
         if (PlayerPrefs.HasKey(bindingKey))
@@ -45,6 +46,23 @@ public class RebindButton : MonoBehaviour
             string overridePath = PlayerPrefs.GetString(bindingKey);
             actionReference.action.ApplyBindingOverride(bindingIndex, overridePath);
         }
+    }
+
+    public void RefreshBinding()
+    {
+        string bindingKey = actionReference.action.name + "_binding_" + bindingIndex;
+
+        if (PlayerPrefs.HasKey(bindingKey))
+        {
+            string overridePath = PlayerPrefs.GetString(bindingKey);
+            actionReference.action.ApplyBindingOverride(bindingIndex, overridePath);
+        }
+        else
+        {
+            actionReference.action.RemoveBindingOverride(bindingIndex);
+        }
+
+        UpdateBindingDisplay();
     }
 
 }

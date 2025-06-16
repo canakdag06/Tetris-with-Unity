@@ -165,6 +165,8 @@ public class MainMenuManager : MonoBehaviour
 
     private void ResetKeyBindings()
     {
+        InputReader.Instance.InputActions.RemoveAllBindingOverrides();
+
         foreach (var action in actions)
         {
             for (int i = 0; i < 5; i++)
@@ -178,5 +180,11 @@ public class MainMenuManager : MonoBehaviour
         }
 
         PlayerPrefs.Save();
+
+        var allUIs = FindObjectsOfType<RebindButton>(true);
+        foreach (var ui in allUIs)
+        {
+            ui.RefreshBinding();
+        }
     }
 }
